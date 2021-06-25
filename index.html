@@ -31,7 +31,12 @@
         <!--SIDEBAR VERTICAL-->
         <div class="col-2">
           <nav
-            class="navbar navbar-expand-md navbar-white bg-navbar fixed-left justify-content-between"
+            class="
+              navbar navbar-expand-md navbar-white
+              bg-navbar
+              fixed-left
+              justify-content-between
+            "
             id="sidebar"
           >
             <div class="nav-container">
@@ -124,7 +129,11 @@
               <div id="searchResults" style="display: none">
                 <h2>Search Results</h2>
                 <div
-                  class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 imgLinks py-3"
+                  class="
+                    row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4
+                    imgLinks
+                    py-3
+                  "
                 ></div>
               </div>
             </div>
@@ -134,7 +143,11 @@
               <div id="results">
                 <h2 class="pl-3 text-white"></h2>
                 <div
-                  class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 imgLinks py-3"
+                  class="
+                    row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4
+                    imgLinks
+                    py-3
+                  "
                 >
                   <div>
                     <div class="spinner-border text-primary" role="status">
@@ -218,17 +231,17 @@
     ></script>
 
     <script>
-      const history = localStorage.getItem("query"); // attempts grabbing value from the localStorage, will be undefined if not present
+      const history = localStorage.getItem("query") // attempts grabbing value from the localStorage, will be undefined if not present
 
-      let query = history ? history : "daft punk"; // if history has a value will be evaluated as truthy and uses the string, otherwise it falls back to "daft punk"
+      let query = history ? history : "daft punk" // if history has a value will be evaluated as truthy and uses the string, otherwise it falls back to "daft punk"
 
       const handleSearchQuery = (e) => {
-        query = e.target.value; // sets new default value for query
-        localStorage.setItem("query", e.target.value); // adds the same value in the storage for persistance after refreshes
-      };
+        query = e.target.value // sets new default value for query
+        localStorage.setItem("query", e.target.value) // adds the same value in the storage for persistance after refreshes
+      }
 
+      //Creating cards with template literals
       const albumCard = (songInfo) => {
-        // template for a single album card with dynamic data passed from the forEach in search()
         return `<img
                 class="img-fluid"
                 src=${songInfo.album.cover_medium}
@@ -238,11 +251,12 @@
                 <a href="/album_page.html?albumId=${songInfo.album.id}">${songInfo.album.title}</a>
                 <br />
                 <a href="/artist_page.html?artistId=${songInfo.artist.id}">${songInfo.artist.name}</a>
-              </p>`;
-      };
+              </p>`
+      }
 
+      
       const search = (q = query) => {
-        console.log(history);
+        console.log(history)
         fetch(
           "https://striveschool-api.herokuapp.com/api/deezer/search?q=" + q
 
@@ -257,44 +271,44 @@
           // }
         )
           .then((response) => {
-            return response.json();
+            return response.json()
           })
           .then((parsedBody) => {
             // parsedBody has the actual data from the fetch's body
-            console.log(parsedBody);
+            console.log(parsedBody)
 
-            const songsInfo = parsedBody.data; // need to access the data property to get the array of elements
-            const row = document.querySelector("#results > .row"); // grabs the container where we put all the newly generated columns
+            const songsInfo = parsedBody.data // need to access the data property to get the array of elements
+            const row = document.querySelector("#results > .row") // grabs the container where we put all the newly generated columns
 
-            row.innerHTML = ""; // makes sure the container is empty before adding new data (eg. after the search)
+            row.innerHTML = "" // makes sure the container is empty before adding new data (eg. after the search)
 
             songsInfo.forEach((song) => {
-              const spinner = document.querySelector(".spinner-border"); // grabs the spinner element
+              const spinner = document.querySelector(".spinner-border") // grabs the spinner element
               if (spinner) {
                 // check if it exists in the page
-                spinner.parentNode.remove(); // then removes it
+                spinner.parentNode.remove() // then removes it
               }
 
-              const col = document.createElement("div"); // creates a new div that will be our new column for the card
-              col.className = "col text-center"; // adds the actual col class to make it a column
-              col.id = song.id;
-              col.innerHTML = albumCard(song); // this is when we fill the col with some content in its innerHTML
+              const col = document.createElement("div") // creates a new div that will be our new column for the card
+              col.className = "col text-center" // adds the actual col class to make it a column
+              col.id = song.id
+              col.innerHTML = albumCard(song) // this is when we fill the col with some content in its innerHTML
               // via a function albumCard in which we pass the song object
-              row.appendChild(col); // finally adding the new col (and every new col generated by the forEach) in the row element
-            });
+              row.appendChild(col) // finally adding the new col (and every new col generated by the forEach) in the row element
+            })
           })
           .catch((err) => {
-            console.error(err); // in case of something going wrong the error will be catched here and logged
-          });
-      };
+            console.error(err) // in case of something going wrong the error will be catched here and logged
+          })
+      }
 
       window.onload = () => {
-        search(); // executes the fetch on page loading
+        search() // executes the fetch on page loading
 
-        const inputField = document.getElementById("searchField"); // grabs searchField reference
-        inputField.addEventListener("change", handleSearchQuery); // attaches an event listener of type "change" and
+        const inputField = document.getElementById("searchField") // grabs searchField reference
+        inputField.addEventListener("change", handleSearchQuery) // attaches an event listener of type "change" and
         // passes handleSearchQuery to be executed after the event gets triggered
-      };
+      }
     </script>
   </body>
 </html>
